@@ -79,8 +79,9 @@ class App extends React.Component {
 
     getCell(index){
         const { mainArr } = this.state;
-        return (<section>  {mainArr.map((cell, index) => (
+        return (<React.Fragment>  {mainArr.map((cell, index) => (
                 <span
+                    keys={index}
                     onClick={() => this.setCell(index)}
                 >
                     {this.state.mainArr[index]}
@@ -88,7 +89,7 @@ class App extends React.Component {
             )
         )
 
-        } </section>)
+        } </React.Fragment>)
 
     }
     reset(){
