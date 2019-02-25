@@ -79,15 +79,16 @@ class App extends React.Component {
 
     getCell(index){
         const { mainArr } = this.state;
-        return (<section>  {mainArr.map((cell, index) => (
+        return (<React.Fragment>  {mainArr.map((cell, index) => (
                 <span
+                    key={index}
                     onClick={() => this.setCell(index)}
                 >
                     {this.state.mainArr[index]}
                 </span>
             )
         )
-        } </section>)
+        } </React.Fragment>)
 
     }
     reset(){
