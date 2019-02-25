@@ -1,5 +1,10 @@
-.row{
+*{
+  box-sizing: border-box;
+}
+section{
   display: flex;
+  width: 300px;
+  flex-wrap: wrap;
 }
 span{
   width: 100px;

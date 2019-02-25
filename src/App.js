@@ -6,8 +6,9 @@ class App extends React.Component {
         this.state = {
             count: 0,
             mainArr: Array(9).fill(null),
-            winner: 'X',
+            winner: '0',
             gamer: 'X',
+            gameOver: false,
             text: 'Сейчас ходит'
         }
 
@@ -23,39 +24,25 @@ class App extends React.Component {
             [0, 1, 2],
             [0, 4, 8],
             [1, 4, 7],
-            [2, 5, 8]
+            [2, 5, 8],
+            [0, 3, 6]
         ]
         for(const position of winArr){
             const [a, b, c] = [...position]
-            if(this.state.mainArr[a] === this.state.mainArr[b] && this.state.mainArr[b] === this.state.mainArr[c] && this.state.mainArr[c] !== null ){
+            const {mainArr} = this.state
+            if(mainArr[a] === mainArr[b]
+                && mainArr[b] === mainArr[c]
+                && mainArr[c] !== null ){
                 this.setState(() => {
                     return {
                         text: 'Победитель',
-                        gamer: this.state.gamer
+                        gamer: this.state.winner,
+                        gameOver: true
                     }
                 })
-                document.querySelector('section').style.pointerEvents = 'none'
+
             }
 
-        }
-
-    }
-    setCell(index){
-        let gamer
-        const winner = this.state.count % 2? '0' : 'X'
-        winner === 'X'? gamer = '0' : gamer = 'X'
-        if(this.state.mainArr[index] === null){
-            let mainArr = this.state.mainArr
-            mainArr[index] = winner
-            this.setState(() => {
-                return {
-                    mainArr: mainArr,
-                    count: this.state.count + 1,
-                    winner: winner,
-                    gamer: gamer
-                }
-            })
-            console.log(this.state)
         }
         function friend(number) {
             return number !== null
@@ -64,16 +51,44 @@ class App extends React.Component {
             this.setState(() => {
                 return {
                     text: 'Победила дружба',
-                    gamer: null
+                    gamer: null,
+                    gameOver: true
                 }
             })
         }
-        this.win()
-
+    }
+    setCell(index){
+        if(this.state.gameOver === true){
+            return
+        }
+        let gamer = this.state.winner
+        const winner = this.state.count % 2? '0' : 'X'
+        if (this.state.mainArr[index]) { return }
+        let mainArr = [...this.state.mainArr]
+            mainArr[index] = winner
+            this.setState(() => {
+                return {
+                    mainArr: mainArr,
+                    count: this.state.count + 1,
+                    winner: winner,
+                    gamer: gamer
+                }
+            }, () => this.win())
+            console.log(this.state)
     }
 
     getCell(index){
-        return <span onClick={() => this.setCell(index)}>{this.state.mainArr[index]}</span>
+        const { mainArr } = this.state;
+        return (<section>  {mainArr.map((cell, index) => (
+                <span
+                    onClick={() => this.setCell(index)}
+                >
+                    {this.state.mainArr[index]}
+                </span>
+            )
+        )
+        } </section>)
+
     }
     reset(){
         document.querySelector('section').style.pointerEvents = 'auto'
@@ -83,7 +98,8 @@ class App extends React.Component {
                 mainArr: Array(9).fill(null),
                 winner: 'X',
                 text: 'Сейчас ходит',
-                gamer: 'X'
+                gamer: 'X',
+                gameOver: false
             }
         })
 
@@ -93,21 +109,7 @@ class App extends React.Component {
             <div>
                 <h1>{this.state.text} {this.state.gamer}</h1>
                 <section>
-                    <div className="row">
-                        {this.getCell(0)}
-                        {this.getCell(1)}
-                        {this.getCell(2)}
-                    </div>
-                    <div className="row">
-                        {this.getCell(3)}
-                        {this.getCell(4)}
-                        {this.getCell(5)}
-                    </div>
-                     <div className="row">
-                        {this.getCell(6)}
-                        {this.getCell(7)}
-                        {this.getCell(8)}
-                    </div>
+                        {this.getCell()}
                 </section>
                 <button onClick={() => this.reset()}>Новая Игра</button>
             </div>
