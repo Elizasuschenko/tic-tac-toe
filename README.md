@@ -1,2 +1,2 @@
-[Preview](https://github.com/facebook/create-react-app)
-[PullRequest](https://github.com/facebook/create-react-app)
+[Preview](https://elizasuschenko.github.io/tic-tac-toe/build/)
+[PullRequest](https://github.com/Elizasuschenko/tic-tac-toe/pull/2)
