@@ -81,7 +81,7 @@ class App extends React.Component {
         const { mainArr } = this.state;
         return (<React.Fragment>  {mainArr.map((cell, index) => (
                 <span
-                    keys={index}
+                    key={index}
                     onClick={() => this.setCell(index)}
                 >
                     {this.state.mainArr[index]}
